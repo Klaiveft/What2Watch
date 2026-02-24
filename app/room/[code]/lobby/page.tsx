@@ -18,6 +18,7 @@ interface ProposeMovie extends TMDBMovie {
 export default function LobbyPage({ params }: { params: { code: string } }) {
   const { room, participants, currentUser, currentParticipant, isHost } = useRoom()
   const [proposedMovies, setProposedMovies] = useState<ProposeMovie[]>([])
+  const [myProposals, setMyProposals] = useState<ProposeMovie[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -56,22 +57,19 @@ export default function LobbyPage({ params }: { params: { code: string } }) {
             const participant = participants.find(part => part.user_id === p.user_id)
             return {
               proposal_id: p.id,
+              user_id: p.user_id,
               proposed_by: participant?.display_name || 'Unknown',
-              id: p.movies.id, // Internal DB ID, but we map it for the UI if needed
+              id: p.movies.id, 
               tmdb_id: p.movies.tmdb_id,
               title: p.movies.title,
               poster_path: p.movies.poster_path,
               release_date: p.movies.release_year?.toString() || '',
               overview: p.movies.overview || '',
-            } as any // Forcing type for simplicity here, TMDBMovie structure
+            } as any 
           })
-          
-          // Deduplicate by tmdb_id for display if multiple proposed the same
-          // But technically our DB enforces unique(user, movie), and unique(room, tmdb)
-          // Wait, the DB schema:
-          // movies (room_code, tmdb_id) unique
-          // proposals (user_id, movie_id) unique
-          // So a movie is in `movies` once per room. Multiple users can propose it.
+
+          const myMapped = mapped.filter((m: any) => m.user_id === currentUser?.id)
+          setMyProposals(myMapped as ProposeMovie[])
           
           const uniqueMovies = Array.from(new Map(mapped.map((m: any) => [m.tmdb_id, m])).values())
           
@@ -233,7 +231,7 @@ export default function LobbyPage({ params }: { params: { code: string } }) {
               <h2 className={styles.sectionTitle}>Add a Movie</h2>
               <MovieSearch 
                 onSelect={handlePropose} 
-                selectedMovies={proposedMovies} // In a strict world we'd pass only MY proposals here to show "Selected"
+                selectedMovies={myProposals}
               />
            </div>
 
