@@ -32,7 +32,7 @@ export async function submitVote(roomCode: string, movieId: number, value: boole
   return { success: true }
 }
 
-export async function checkVotingComplete(roomCode: string) {
+export async function checkVotingComplete(roomCode: string, forceComplete: boolean = false) {
   const supabase = createSupabaseServerClient()
 
   // 1. Get total participants count
@@ -61,8 +61,8 @@ export async function checkVotingComplete(roomCode: string) {
 
   if (vErr) throw new Error(vErr.message)
 
-  // 4. If complete, calculate winner
-  if (votesCount !== null && votesCount >= expectedVotes) {
+  // 4. If complete or forced, calculate winner
+  if (forceComplete || (votesCount !== null && votesCount >= expectedVotes)) {
     // We should call a secure server-side finalize.
     // However, since we might need to bypass RLS to compute and update the room
     const adminSupabase = (await import('@/lib/supabase-server')).createSupabaseAdminClient()

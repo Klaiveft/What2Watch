@@ -10,7 +10,7 @@ import styles from './vote.module.css'
 import { Toast } from '@/components/Toast'
 
 export default function VotePage({ params }: { params: { code: string } }) {
-  const { room, participants, currentUser } = useRoom()
+  const { room, participants, currentUser, isHost } = useRoom()
   const [moviesToVote, setMoviesToVote] = useState<VoteMovie[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -150,9 +150,19 @@ export default function VotePage({ params }: { params: { code: string } }) {
       </div>
 
       <div className={styles.progressContainer}>
-        <div className={styles.progressLabel}>
-          <span>Room Progress</span>
-          <span>{votesCast} / {totalExpectedVotes} votes</span>
+        <div className={styles.progressHeader}>
+          <div className={styles.progressLabel}>
+            <span>Room Progress</span>
+            <span>{votesCast} / {totalExpectedVotes} votes</span>
+          </div>
+          {isHost && (
+            <button 
+              onClick={() => checkVotingComplete(roomCode, true)}
+              className={styles.btnStop}
+            >
+              Stop Voting
+            </button>
+          )}
         </div>
         <div className={styles.progressBar}>
            <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
