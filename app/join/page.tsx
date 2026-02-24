@@ -101,7 +101,7 @@ export default function JoinPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Movie Night Swipe 🍿</h1>
+      <h1 className={styles.title}>What2Watch 🍿</h1>
       
       <div className={styles.cardsContainer}>
         {/* Create Room Card */}

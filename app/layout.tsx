@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Movie Night Swipe',
+  title: 'What2Watch',
   description: 'Propose movies and swipe to vote for movie night!',
 }
 

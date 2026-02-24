@@ -1,4 +1,4 @@
-# Movie Night Swipe
+# What2Watch
 
 A Next.js 14 WebApp using Supabase (Auth, Postgres, Realtime) and TMDB API. It allows users to join a room, propose movies, swipe YES/NO, and see the winner.
 
