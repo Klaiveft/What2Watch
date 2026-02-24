@@ -71,7 +71,8 @@ export default function JoinPage() {
          .eq('room_code', upperCode)
          .single()
          
-       if (roomError || !roomData) throw new Error('Room not found')
+       if (roomError) throw new Error(`DB Error: ${roomError.message}`)
+       if (!roomData) throw new Error('Room not found')
        if (roomData.status !== 'proposing') throw new Error('Room is no longer accepting proposals')
 
        // 2. Sign in anonymously

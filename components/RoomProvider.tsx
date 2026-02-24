@@ -76,7 +76,12 @@ export function RoomProvider({
           .eq('room_code', roomCode)
           .single()
 
-        if (roomError || !roomData) {
+        if (roomError) {
+          setError(`DB Error: ${roomError.message} (Code: ${roomError.code})`)
+          setLoading(false)
+          return
+        }
+        if (!roomData) {
           setError('Room not found')
           setLoading(false)
           return

@@ -10,7 +10,7 @@ create table rooms (
   room_code text primary key,
   status text not null default 'proposing', -- 'proposing', 'voting', 'done'
   host_user_id uuid not null, -- The creator's anonymous user id
-  winner_movie_id bigint references movies(id),
+  winner_movie_id bigint,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   constraint status_check check (status in ('proposing', 'voting', 'done'))
 );
@@ -37,6 +37,10 @@ create table movies (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   unique (room_code, tmdb_id)
 );
+
+-- Add foreign key constraint for rooms.winner_movie_id after movies is created
+alter table rooms add constraint fk_winner_movie
+  foreign key (winner_movie_id) references movies(id) on delete set null;
 
 create table proposals (
   id bigint generated always as identity primary key,
@@ -86,6 +90,14 @@ create policy "Participants are readable by everyone." on participants
 -- Users can join a room (insert themselves)
 create policy "Users can join rooms." on participants
   for insert with check (auth.uid() = user_id);
+
+-- Users can update their participant record (required for upsert)
+create policy "Users can update their participation." on participants
+  for update using (auth.uid() = user_id);
+
+-- Users can leave rooms
+create policy "Users can leave rooms." on participants
+  for delete using (auth.uid() = user_id);
 
 -- Policies for movies
 -- Anyone can read movies in a room
