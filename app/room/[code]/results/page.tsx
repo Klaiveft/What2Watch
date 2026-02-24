@@ -102,7 +102,7 @@ export default function ResultsPage({ params }: { params: { code: string } }) {
   }
 
   const winner = results[0]
-  const runnersUp = results.slice(1, 4)
+  const losers = results.slice(1)
 
   return (
     <div className={styles.container}>
@@ -159,34 +159,47 @@ export default function ResultsPage({ params }: { params: { code: string } }) {
         </div>
       </div>
 
-      {runnersUp.length > 0 && (
+      {losers.length > 0 && (
         <div className={styles.runnersUpSection}>
-          <h3 className={styles.runnersUpTitle}><Medal size={20} /> Runners Up</h3>
+          <h3 className={styles.runnersUpTitle}><Medal size={20} /> Full Rankings</h3>
           <div className={styles.runnersUpList}>
-            {runnersUp.map((movie, index) => (
-              <div key={movie.id} className={styles.runnerUpCard}>
-                 <span className={styles.rank}>#{index + 2}</span>
-                 {movie.poster_path ? (
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                      alt={movie.title}
-                      width={60}
-                      height={90}
-                      className={styles.runnerUpPoster}
-                      unoptimized
-                    />
-                 ) : (
-                    <div className={styles.runnerUpNoPoster}></div>
-                 )}
-                 <div className={styles.runnerUpInfo}>
-                    <h4>{movie.title}</h4>
-                    <p>{movie.yesCount} YES votes ({Math.round(movie.yesRatio * 100)}%)</p>
-                 </div>
-              </div>
-            ))}
+            {losers.map((movie, index) => {
+              // Funny text logic based on rank (0 is 2nd place, losers.length-1 is last place)
+              const percent = index / losers.length;
+              let funnyText = "So close to greatness.";
+              if (percent > 0.8) funnyText = "Absolute trash tier. Whoever picked this needs help.";
+              else if (percent > 0.6) funnyText = "Literally nobody wanted to watch this.";
+              else if (percent > 0.4) funnyText = "A very solid 'meh'. Skip.";
+              else if (percent > 0.2) funnyText = "Almost made it. Almost.";
+
+              return (
+                <div key={movie.id} className={styles.runnerUpCard}>
+                   <span className={styles.rank}>#{index + 2}</span>
+                   {movie.poster_path ? (
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                        alt={movie.title}
+                        width={60}
+                        height={90}
+                        className={styles.runnerUpPoster}
+                        unoptimized
+                      />
+                   ) : (
+                      <div className={styles.runnerUpNoPoster}></div>
+                   )}
+                   <div className={styles.runnerUpInfo}>
+                      <h4>{movie.title}</h4>
+                      <p className={styles.loserStats}>{movie.yesCount} YES votes ({Math.round(movie.yesRatio * 100)}%)</p>
+                      <p className={styles.funnyText}>{funnyText}</p>
+                   </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
+
+
 
       {error && <Toast message={error} type="error" onClose={() => setError(null)} />}
     </div>

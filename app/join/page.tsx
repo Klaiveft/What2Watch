@@ -73,7 +73,7 @@ export default function JoinPage() {
          
        if (roomError) throw new Error(`DB Error: ${roomError.message}`)
        if (!roomData) throw new Error('Room not found')
-       if (roomData.status !== 'proposing') throw new Error('Room is no longer accepting proposals')
+       // We now allow users to join at any phase, so they can see the final results.
 
        // 2. Sign in anonymously
        let { data: { user } } = await supabase.auth.getUser()
