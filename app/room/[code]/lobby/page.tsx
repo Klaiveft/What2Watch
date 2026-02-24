@@ -236,7 +236,22 @@ export default function LobbyPage({ params }: { params: { code: string } }) {
            </div>
 
            <div className={styles.proposalsSection}>
-              <h2 className={styles.sectionTitle}>Proposed Movies ({proposedMovies.length})</h2>
+              <h2 className={styles.sectionTitle}>My Movies ({myProposals.length}/3)</h2>
+              {myProposals.length === 0 ? (
+                <div className={styles.emptyState}>You haven't added any movies yet.</div>
+              ) : (
+                <div className={styles.movieGrid}>
+                  {myProposals.map((m) => (
+                    <div key={m.proposal_id} className={styles.proposedCard}>
+                      <MovieCard movie={m as any} hideSelect />
+                    </div>
+                  ))}
+                </div>
+              )}
+           </div>
+
+           <div className={styles.proposalsSection}>
+              <h2 className={styles.sectionTitle}>All Proposed Movies ({proposedMovies.length})</h2>
               {proposedMovies.length === 0 ? (
                 <div className={styles.emptyState}>No movies proposed yet. Be the first!</div>
               ) : (

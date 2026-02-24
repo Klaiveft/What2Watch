@@ -37,18 +37,16 @@ export function SwipeVote({ movies, onVote, onComplete }: SwipeVoteProps) {
     ? `https://image.tmdb.org/t/p/w780${currentMovie.poster_path}`
     : null
 
-  const handleVote = async (isYes: boolean) => {
-    if (isVoting) return
-    setIsVoting(true)
+  const handleVote = (isYes: boolean) => {
+    // Optimistically move to next card instantly
+    setCurrentIndex(prev => prev + 1)
     
-    // Animate out (handled in future polish with framer-motion if needed)
-    
-    try {
-      await onVote(currentMovie.id, isYes)
-      setCurrentIndex(prev => prev + 1)
-    } finally {
-      setIsVoting(false)
-    }
+    // Fire and forget the vote submission
+    onVote(currentMovie.id, isYes).catch(err => {
+      console.error('Failed to submit vote:', err)
+      // In a real app we might want to revert the swipe or show a toast,
+      // but fire-and-forget is usually fine for a fun prototype.
+    })
   }
 
   return (
@@ -91,7 +89,6 @@ export function SwipeVote({ movies, onVote, onComplete }: SwipeVoteProps) {
       <div className={styles.actions}>
         <button 
           onClick={() => handleVote(false)} 
-          disabled={isVoting}
           className={`${styles.voteBtn} ${styles.btnNo}`}
           aria-label="Vote No"
         >
@@ -99,7 +96,6 @@ export function SwipeVote({ movies, onVote, onComplete }: SwipeVoteProps) {
         </button>
         <button 
           onClick={() => handleVote(true)} 
-          disabled={isVoting}
           className={`${styles.voteBtn} ${styles.btnYes}`}
           aria-label="Vote Yes"
         >
