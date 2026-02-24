@@ -1,0 +1,103 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.2s, border-color 0.2s;
+  height: 100%;
+}
+
+.card[role="button"] {
+  cursor: pointer;
+}
+
+.card[role="button"]:hover {
+  transform: translateY(-2px);
+  border-color: var(--muted);
+}
+
+.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.posterContainer {
+  position: relative;
+  aspect-ratio: 2/3;
+  width: 100%;
+  background-color: var(--background);
+}
+
+.poster {
+  object-fit: cover;
+}
+
+.noPoster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.content {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.year {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.overview {
+  font-size: 0.875rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.action {
+  padding: 1rem;
+  padding-top: 0;
+  margin-top: auto;
+}
+
+.btnSelect, .btnSelected {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.btnSelect {
+  background-color: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.btnSelect:hover {
+  background-color: var(--border);
+}
+
+.btnSelected {
+  background-color: var(--primary);
+  color: white;
+}

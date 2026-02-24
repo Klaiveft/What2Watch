@@ -1,0 +1,136 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 100%;
+  background-color: var(--surface);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.posterContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/3;
+  background-color: #000;
+}
+
+.poster {
+  object-fit: cover;
+}
+
+.noPoster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+  color: white;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.dot {
+  margin: 0 0.5rem;
+}
+
+.genres {
+  font-size: 0.875rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.infoRow {
+  padding: 1rem 1.5rem;
+}
+
+.overview {
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.voteBtn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+  border: 4px solid var(--border);
+  transition: all 0.2s;
+  color: var(--foreground);
+}
+
+.voteBtn:active {
+  transform: scale(0.9);
+}
+
+.btnNo {
+  color: var(--danger);
+}
+
+.btnNo:hover, .btnNo:focus {
+  border-color: var(--danger);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.btnYes {
+  color: var(--success);
+}
+
+.btnYes:hover, .btnYes:focus {
+  border-color: var(--success);
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.progress {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 500;
+}
